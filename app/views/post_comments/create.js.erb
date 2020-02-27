@@ -1,0 +1,2 @@
+$('textarea').val("");
+$('#books_comments_<%= @book.id %>').html("<%= j(render partial: 'books/comments',locals: {book: @book}) %>");

@@ -27,6 +27,7 @@
              <td><%= @book.body %></td>
              <td> <td>
 
+<!--いいね機能　非同期 -->
 <td id="favorites_buttons_<%= @book.id %>">
           <%= render 'books/favorites',book: @book %>
   </td>
@@ -50,8 +51,8 @@
       </tr>
         </table> -->
 
-        <!-- 投稿一覧 -->
-        <div class ="col-xs-9">
+        <!-- 投稿一覧非同期 -->
+<div class ="col-xs-9">
           <h1>Comments</h1>
           <table class = "table">
             <tr>
@@ -63,26 +64,17 @@
               <th></th>
               <th></th>
             </tr>
-            <% @book.post_comments.each do |post_comment| %>
-            <tr>
-              <td><%= attachment_image_tag post_comment.user, :profile_image, :fill, 40, 40, format: 'jpeg', fallback: "no_image.jpg", size: '40x40'%></td>
-              <td><%= post_comment.user.name %></td>
-              <td><%= post_comment.comment %></td>
-              <td><%= post_comment.created_at.strftime('%Y/%m/%d') %></td>
-              <% if post_comment.user == current_user %>
-              <td><%= link_to "編集", edit_book_post_comment_path(post_comment.book, post_comment.id) , class: "btn-sm btn-success" %></td>
-              <td><%= link_to "削除", book_post_comment_path(post_comment) , class: "btn-sm btn-danger", method: :delete, data: { confirm: '本当に消しますか？'} %></td>
-              <td colspan="2"></td>
-              <% end %>
-              <% end %>
-            </tr>
-          </table>
+        <tbody id="books_comments_<%= @book.id %>">
+          <%= render 'books/comments',book: @book %>
+      </tbody>
+        </table>
         </div>
+
 
 
         <!-- 投稿フォーム -->
         <div class ="col-xs-9", class = "pull-right">
-          <%= form_for [@book, @post_comment] do |f| %>
+          <%= form_with model: [@book, @post_comment] do |f| %>
           <div class="row">
               <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
           </div>
